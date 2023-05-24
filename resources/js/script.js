@@ -39,12 +39,22 @@ const Stamp = {
 
   init(){
     Stamp.loadCode();
+    Stamp.loadProduct();
   },
 
   loadCode(){
     $.getJSON("/resources/json/code.json")
       .done(res => {
         Stamp.code = res;
+      });
+  },
+
+  loadProduct(){
+    $.getJSON("/resources/json/product.json")
+      .done(res => {
+        Stamp.product = res;
+
+        Stamp.settingRoulette();
       });
   },
 
@@ -141,7 +151,34 @@ const Stamp = {
 
     await writeAble.write(data);
     await writeAble.close();
-  }
+  },
+
+  settingRoulette(){
+    const canvas = $('#roulette')[0];
+    const ctx = canvas.getContext("2d");
+    const colors = ["#fb6", "#fff"];
+    const radian = Math.PI/180;
+
+    ctx.translate(300, 300);
+    ctx.strokeStyle = "#666";
+    ctx.textAlign = "center";
+    ctx.font = "bold 18px sans";
+
+    for(let i = 0; i < 10; i++){
+      ctx.beginPath();
+        ctx.fillStyle = colors[i%2];
+        ctx.moveTo(0,0)
+        ctx.arc(0, 0, 299, radian * -108, radian * -72);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#000";
+      ctx.fillText(Stamp.product[i], 0, -250, 120);
+
+      ctx.rotate(radian * 36)
+    }
+  },
 
 }
 

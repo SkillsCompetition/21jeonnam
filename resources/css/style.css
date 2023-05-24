@@ -1303,3 +1303,27 @@ input:focus{
 .upload_file{
   margin-right: 20px;
 }
+
+/* 룰렛 */
+
+.roulette{
+  width: 600px;
+  height: 600px;
+  position: relative;
+}
+
+.roulette canvas{
+  transition: 4s;
+}
+
+.roulette .stick{
+  width: 10px;
+  height: 30px;
+  background-color: brown;
+  border-radius: 5px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 10px;
+  left: 50%;
+  z-index: 10;
+}
