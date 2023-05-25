@@ -62,14 +62,19 @@
       </div>
     </div>
 
-    <div class="event_section">
+    <div class="roulette_section">
       <div class="wrap">
         <div class="title">
           <h1>스탬프 이벤트 참여</h1>
         </div>
 
-        <div class="event">
-          <div class="roulette">
+        <div class="roulette col-flex aic">
+          <div class="input_box">
+            <label for="addStampFile">스탬프 파일</label>
+            <input type="text" class="upload_file rouletteFile" value="첨부파일" readonly>
+            <div class="btn" onclick="Stamp.openFile('rouletteFile')">파일 찾기</div>
+          </div>
+          <div class="roulette_item">
             <div class="stick"></div>
             <canvas id="roulette" width="600" height="600"></canvas>
           </div>
@@ -119,8 +124,8 @@
       <div class="inputs">
         <div class="input_box">
           <label for="addStampFile">스탬프 파일</label>
-          <input type="text" class="upload_file" value="첨부파일" readonly>
-          <div class="btn" onclick="Stamp.openFile()">파일 찾기</div>
+          <input type="text" class="upload_file addStamp" value="첨부파일" readonly>
+          <div class="btn" onclick="Stamp.openFile('addStamp')">파일 찾기</div>
         </div>
 
         <div class="btn_box full">

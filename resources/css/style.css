@@ -1306,17 +1306,22 @@ input:focus{
 
 /* 룰렛 */
 
+
 .roulette{
+  gap: 5rem;
+}
+
+.roulette_item{
   width: 600px;
   height: 600px;
   position: relative;
 }
 
-.roulette canvas{
+.roulette_item canvas{
   transition: 4s;
 }
 
-.roulette .stick{
+.roulette_item .stick{
   width: 10px;
   height: 30px;
   background-color: brown;

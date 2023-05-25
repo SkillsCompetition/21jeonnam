@@ -97,13 +97,15 @@ const Stamp = {
     Modal.open("addStamp");
   },
 
-  async openFile(){
+  async openFile(target){
     [ Stamp.fileSystem ] = await window.showOpenFilePicker();
 
-    $(".upload_file").val(Stamp.fileSystem.name);
+    $(`.upload_file.${target}`).val(Stamp.fileSystem.name);
   },
 
   async addStamp(){
+    if(!Stamp.fileSystem?.getFile()) return alert("먼저 스탬프 카드를 선택해주세요.");
+
     const file = await Stamp.fileSystem.getFile();
     const img = new Image();
     const fr = new FileReader();
@@ -120,6 +122,7 @@ const Stamp = {
     }
 
     img.onload = async () => {
+      let chkAllow = false;
       ctx.drawImage(img, 0, 0, 432, 288);
 
       for(let i = 0; i < 8; i++) {
@@ -136,13 +139,22 @@ const Stamp = {
             ctx.arc(163 + (15 * i), 271, 3, 0, Math.PI *2);
           ctx.closePath();
           ctx.fill();
+
+          chkAllow = true;
           break;
         };
       }
 
-      canvas.toBlob((data) => {
-        Stamp.saveFile(data);
-      })
+      if(chkAllow){
+        canvas.toBlob((data) => {
+          Stamp.saveFile(data);
+  
+          alert("적립이 완료되었습니다.");
+          Modal.close();
+        })
+      }else{
+        alert("적립이 불가능합니다.");
+      }
     }  
   },
 
@@ -151,6 +163,8 @@ const Stamp = {
 
     await writeAble.write(data);
     await writeAble.close();
+
+    Stamp.fileSystem = null;
   },
 
   settingRoulette(){
@@ -179,6 +193,81 @@ const Stamp = {
       ctx.rotate(radian * 36)
     }
   },
+
+  removeCount(){  
+    return new Promise(async (res, rej) => {
+      const file = await Stamp.fileSystem.getFile();
+      const img = new Image();
+      const fr = new FileReader();
+    
+      const canvas = $("#stamp")[0];
+      const ctx = canvas.getContext("2d");
+  
+      fr.readAsDataURL(file);
+  
+      fr.onload = () => {
+        img.src = fr.result;
+      }
+  
+      img.onload = async () => {
+        let chkAllow = false;
+        ctx.drawImage(img, 0, 0);
+  
+        for (let i = 0; i < 8; i++) {
+          const color = await ctx.getImageData(163 + (15 * i), 271, 1, 1);
+  
+          if(JSON.stringify([...color.data]) == '[0,128,0,255]'){
+            ctx.beginPath();
+              ctx.fillStyle = "red";
+              ctx.arc(163 + (15 * i), 271, 3, 0, Math.PI *2);
+            ctx.closePath();
+            ctx.fill();
+  
+            chkAllow = true;
+            break;
+          }
+        }
+
+        if(chkAllow){
+          canvas.toBlob(function(data){
+            Stamp.saveFile(data);
+
+            res();
+          });
+        }else{
+          rej();
+        }
+      }
+    })
+  },
+
+  rotateRoulette(){
+    if(!Stamp.fileSystem?.getFile()) return alert("먼저 스탬프 카드를 선택해주세요.");
+
+    Stamp.removeCount()
+      .then(() => {
+        const deg = Math.random() * 359;
+        const product = Stamp.product[Math.floor((deg + 18)/36)];
+
+        $("canvas#roulette").css({
+          "transition" : "4s",
+          "transform" : `rotate(-${deg + 3600}deg)`
+        })
+
+        setTimeout(() => {
+          alert(`축하드립니다. '${product}'에 당첨되었습니다.`);
+
+          $("canvas#roulette").css({
+            "transition" : "0s",
+            "transform" : `rotate(-0deg)`
+          })
+        }, 4000);
+      })
+      .catch(() => {
+        alert("참여 횟수가 모자라 참여할 수 없습니다.");
+      })
+    
+  }
 
 }
 
