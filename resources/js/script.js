@@ -5,21 +5,130 @@ const App = {
   init(){
     App.hook();
     
+    if(location.pathname.includes("/")) Map.init();
     if(location.pathname.includes("stemp")) Stamp.init();
   },
 
   hook(){
     $(document)
       .on("click", ".modal .close_btn", Modal.close)
+      .on("mousedown", ".modal .map_box", Map.moveMap.mousedown)
+      .on("mousemove", ".modal .map_box", Map.moveMap.mousemove)
+      .on("mouseup mouseleave", ".modal .map_box", Map.moveMap.mouseup)
   }
 
 }
 
 const Map = {
+  pos : [0, 0],
+  isWheel : true,
+  zoom : 2,
+  maxSize : 1600,
 
   init(){
+    $("body").css("overflow", "hidden");
+    $(".map_box")[0].addEventListener("wheel", Map.zoomMap, { passive : true })
 
+    Map.newMap(0, 0);
   },
+
+  newMap(x, y){
+    const canvas = $(`.map_modal #map${Map.zoom}`);
+    const ctx = canvas[0].getContext("2d");
+
+    canvas.css({
+      "left" : `${x}px`,
+      "top" : `${y}px`
+    });
+
+    ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
+
+    const split = 2**(Map.zoom - 1);
+
+    new Array(4**(Map.zoom - 1)).fill(0).forEach((v, i) => {
+        const x = 800 * (i%split);
+        const y = 800 * Math.floor(i/split);
+
+        $(`<img>`, { src : `/resources/img/map/${Map.zoom}/${i + 1}.jpg` })[0]
+          .onload = (e) => {
+            ctx.drawImage(e.target, x, y, 800, 800);
+          }
+    })
+  },
+
+  zoomMap(e){
+    const dir = e.deltaY/-100;
+
+    if(Map.zoom + dir > 3 || Map.zoom + dir < 1) return;
+
+    $(`.map_modal #map${Map.zoom}`).attr("hidden", true);
+    Map.zoom += dir;
+    $(`.map_modal #map${Map.zoom}`).attr("hidden", false);
+
+    let [x, y] = [...Map.pos];
+
+    if(dir === -1) {
+      x /= 2;
+      y /= 2;
+
+      Map.maxSize /= 2
+    }else{
+      x *= 2;
+      y *= 2;
+
+      Map.maxSize *= 2
+    }
+
+    const max = Map.maxSize/2 - 400;
+    Map.pos = [Math.abs(x) > max ? max : x, Math.abs(y) > max ? max : y];
+
+    Map.newMap(...Map.pos)
+  },
+
+  moveMap : {
+    mousedown(e){
+      Map.startPos = [
+        e.pageX,
+        e.pageY
+      ];
+
+      Map.isMove = true;
+    },
+
+    mousemove(e){
+      if(!Map.isMove) return;
+      const max = Map.maxSize/2 - 400;
+
+      let [moveX, moveY] = [
+        Map.pos[0] + e.pageX - Map.startPos[0],
+        Map.pos[0] + e.pageY - Map.startPos[1]
+      ];
+
+      moveX = Math.abs(moveX) > max ? max : moveX;
+      moveY = Math.abs(moveY) > max ? max : moveY;
+
+      $(`.map_modal #map${Map.zoom}`).css({
+        "left" : moveX,
+        "top" : moveY
+      })
+    },
+
+    mouseup(e){
+      if(!Map.isMove) return;
+      const max = Map.maxSize/2 - 400;
+      Map.isMove = false;
+
+      let [moveX, moveY] = [
+        Map.pos[0] + e.pageX - Map.startPos[0],
+        Map.pos[0] + e.pageY - Map.startPos[1]
+      ];
+
+      moveX = Math.abs(moveX) > max ? max : moveX;
+      moveY = Math.abs(moveY) > max ? max : moveY;
+
+      Map.pos = [moveX, moveY]
+    }
+  }
 
 }
 

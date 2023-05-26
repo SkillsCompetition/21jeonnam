@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="resources/fontawesome/css/font-awesome.css">
   <link rel="stylesheet" href="resources/css/style.css">
+  <script src="resources/js/jquery-3.6.0.min.js"></script>
   <script src="resources/js/script.js"></script>
   <title>Document</title>
 </head>
@@ -463,6 +464,47 @@
     </div>
 
   </div>
+
+  <div class="modal open">
+    <div class="map_modal">
+      <div class="flex jcsb aic">
+        <h3>지도보기</h3>
+
+        <div class="close_btn">
+          <i class="fa fa-close"></i>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="map_box">
+        <canvas id="map1" width="800" height="800" hidden></canvas>
+        <canvas id="map2" width="1600" height="1600"></canvas>
+        <canvas id="map3" width="3200" height="3200" hidden></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <template>
+
+    <div class="map_modal">
+      <div class="flex jcsb aic">
+        <h3>지도보기</h3>
+
+        <div class="close_btn">
+          <i class="fa fa-close"></i>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="map_box">
+        <canvas id="map3" width="3200" height="3200"></canvas>
+      </div>
+    </div>
+
+  </template>
 
   <footer>
     <div class="wrap flex jcsb">

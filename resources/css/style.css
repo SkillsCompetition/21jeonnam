@@ -1332,3 +1332,18 @@ input:focus{
   left: 50%;
   z-index: 10;
 }
+
+.map_box{
+  width: 800px;
+  height: 800px;
+  position: relative;
+  overflow: hidden;
+}
+
+.map_box canvas{
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  transform: translate(calc(-50% + 400px), calc(-50% + 400px));
+  pointer-events: none;
+}
