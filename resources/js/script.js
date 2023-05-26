@@ -101,7 +101,7 @@ const Map = {
 
       let [moveX, moveY] = [
         Map.pos[0] + e.pageX - Map.startPos[0],
-        Map.pos[0] + e.pageY - Map.startPos[1]
+        Map.pos[1] + e.pageY - Map.startPos[1]
       ];
 
       moveX = Math.abs(moveX) > max ? max : moveX;
@@ -120,7 +120,7 @@ const Map = {
 
       let [moveX, moveY] = [
         Map.pos[0] + e.pageX - Map.startPos[0],
-        Map.pos[0] + e.pageY - Map.startPos[1]
+        Map.pos[1] + e.pageY - Map.startPos[1]
       ];
 
       moveX = Math.abs(moveX) > max ? max : moveX;
