@@ -24,12 +24,46 @@ const Map = {
   isWheel : true,
   zoom : 2,
   maxSize : 1600,
+  data : [
+    {
+      "x" : 2941,
+      "y" : 2694,
+      "store" : "성심당 본점"
+    },
+    {
+      "x" : 1712,
+      "y" : 1991,
+      "store" : "콜마르브레드"
+    },
+    {
+      "x" : 2347 ,
+      "y" : 625,
+      "store" : "아빠의 꿈"
+    },
+    {
+      "x" : 3447,
+      "y" : 2381,
+      "store" : "파이한모금"
+    },
+    {
+      "x" : 815 ,
+      "y" : 3632,
+      "store" : "르뺑99-1"
+    }
+  ],
+  nowData : {
+    "x" : 2941,
+    "y" : 2694,
+    "store" : "성심당 본점"
+  },
 
   init(){
     $("body").css("overflow", "hidden");
     $(".map_box")[0].addEventListener("wheel", Map.zoomMap, { passive : true })
 
-    Map.newMap(0, 0);
+    Map.newMap(0, 0).then(() => {
+      Map.addMarker();
+    });
   },
 
   newMap(x, y){
@@ -45,15 +79,20 @@ const Map = {
 
     const split = 2**(Map.zoom - 1);
 
-    new Array(4**(Map.zoom - 1)).fill(0).forEach((v, i) => {
+    const promise = new Array(4**(Map.zoom - 1)).fill(0).map((v, i) => {
+      return new Promise(res => {
         const x = 800 * (i%split);
         const y = 800 * Math.floor(i/split);
-
+  
         $(`<img>`, { src : `/resources/img/map/${Map.zoom}/${i + 1}.jpg` })[0]
           .onload = (e) => {
             ctx.drawImage(e.target, x, y, 800, 800);
+            res();
           }
-    })
+      })
+    });
+
+    return Promise.all(promise);
   },
 
   zoomMap(e){
@@ -82,7 +121,22 @@ const Map = {
     const max = Map.maxSize/2 - 400;
     Map.pos = [Math.abs(x) > max ? max : x, Math.abs(y) > max ? max : y];
 
-    Map.newMap(...Map.pos)
+    Map.newMap(...Map.pos).then(() => {
+      Map.addMarker();
+    })
+  },
+
+  addMarker(){
+    const { x, y } = {...Map.nowData};
+
+    const canvas = $(`.map_modal #map${Map.zoom}`);
+    const ctx = canvas[0].getContext("2d");
+
+    const marker = $("#marker_img")[0];
+
+    const split = 2**(3 - Map.zoom);
+
+    ctx.drawImage(marker, (x/2)/split - 15, (y/2)/split - 23, 21, 30);
   },
 
   moveMap : {
@@ -128,7 +182,7 @@ const Map = {
 
       Map.pos = [moveX, moveY]
     }
-  }
+  },
 
 }
 
