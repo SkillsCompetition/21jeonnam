@@ -1345,5 +1345,10 @@ input:focus{
   top: 0%;
   left: 0%;
   transform: translate(calc(-50% + 400px), calc(-50% + 400px));
-  pointer-events: none;
+}
+
+.map_box canvas#context{
+  pointer-events: all;
+  z-index: 99;
+  opacity: 0;
 }

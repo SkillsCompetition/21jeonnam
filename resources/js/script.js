@@ -63,6 +63,7 @@ const Map = {
 
     Map.newMap(0, 0).then(() => {
       Map.addMarker();
+      Map.setContext();
     });
   },
 
@@ -123,6 +124,7 @@ const Map = {
 
     Map.newMap(...Map.pos).then(() => {
       Map.addMarker();
+      Map.setContext();
     })
   },
 
@@ -137,6 +139,16 @@ const Map = {
     const split = 2**(3 - Map.zoom);
 
     ctx.drawImage(marker, (x/2)/split - 15, (y/2)/split - 23, 21, 30);
+  },
+
+  setContext(){
+    const [x, y] = Map.pos;
+    const max = Map.maxSize/2 - 400;
+
+    const canvas = $(`.map_modal #context`);
+    const ctx = canvas[0].getContext("2d");
+
+    ctx.drawImage($(`.map_modal #map${Map.zoom}`)[0], max - x, max - y, 800, 800, 0, 0, 800, 800);
   },
 
   moveMap : {
@@ -180,7 +192,8 @@ const Map = {
       moveX = Math.abs(moveX) > max ? max : moveX;
       moveY = Math.abs(moveY) > max ? max : moveY;
 
-      Map.pos = [moveX, moveY]
+      Map.pos = [moveX, moveY];
+      Map.setContext();
     }
   },
 
