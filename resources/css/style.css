@@ -960,7 +960,7 @@ footer .sns_nav i:hover{
   top: 80px;
   left: 50%;
   transform: translate(-50%);
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;

@@ -57,8 +57,12 @@ const Map = {
     "store" : "성심당 본점"
   },
 
-  init(){
-    $("body").css("overflow", "hidden");
+  openMap(idx){
+    Map.nowData = Map.data[idx];
+    Map.zoom = 1;
+    Map.maxSize = 800;
+
+    Modal.open("map")
     $(".map_box")[0].addEventListener("wheel", Map.zoomMap, { passive : true })
 
     Map.newMap(0, 0).then(() => {
@@ -112,7 +116,7 @@ const Map = {
 
     if (dir === -1) {
       const [posX, posY] = Map.pos;
-      const limit = (Map.maxSize/2 - 400)/2;
+      const limit = (Map.maxSize/2 - 600)/2;
 
       originX = posX > limit ? "left" : posX < (limit * -1) ? "right" : `${posX + (Map.maxSize/2)}px`;
       originY = posY > limit ? "top" : posY < (limit * -1) ? "bottom" : `${posY + (Map.maxSize/2)}px`;
