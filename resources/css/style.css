@@ -45,6 +45,17 @@ a{
   gap: .5rem;
   color: #fff;
   cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn_box{
+  display: flex;
+  gap: .5rem;
+}
+
+.btn_box.full,
+.btn_box.full .btn{
+  width: 100%;
 }
 
 label, button{
@@ -949,7 +960,7 @@ footer .sns_nav i:hover{
   top: 80px;
   left: 50%;
   transform: translate(-50%);
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
@@ -1190,4 +1201,154 @@ input{
 
 .shoplist{
   gap: 2rem;
+}
+
+.close_btn{
+  width: 20px;
+  height: 20px;
+  background-color: tomato;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  border-radius: 100%;
+  font-size: 14px;
+}
+
+.modal{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #0001;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999999;
+}
+
+.modal.open{
+  display: flex;
+}
+
+.modal > div{
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.input_box{
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #f2f2f2;
+}
+
+.input_box label{
+  white-space: nowrap;
+  padding-right: 20px;
+  margin-right: 20px;
+  border-right: 1px solid #d1d1d1;
+  color: gray;
+}
+
+.input_box input{
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  font-family: initial;
+  vertical-align: middle;
+}
+
+.input_box input[type="file"]{
+  display: none;
+}
+
+.input_box .btn{
+  height: 28px;
+  font-size: 12px;
+  color: #fff;
+  margin: 0;
+  border: none;
+}
+
+.modal hr{
+  margin: 1rem 0;
+}
+
+.inputs{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input:focus{
+  outline: none;
+}
+
+.double .wrap{
+  display: flex;
+  gap: 1.5rem;
+}
+
+.double .wrap > div{
+  width: 50%;
+}
+
+.upload_file{
+  margin-right: 20px;
+}
+
+/* 룰렛 */
+
+
+.roulette{
+  gap: 5rem;
+}
+
+.roulette_item{
+  width: 600px;
+  height: 600px;
+  position: relative;
+}
+
+.roulette_item canvas{
+  transition: 4s;
+}
+
+.roulette_item .stick{
+  width: 10px;
+  height: 30px;
+  background-color: brown;
+  border-radius: 5px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 10px;
+  left: 50%;
+  z-index: 10;
+}
+
+.map_box{
+  width: 800px;
+  height: 800px;
+  position: relative;
+  overflow: hidden;
+}
+
+.map_box canvas{
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  transform: translate(calc(-50% + 400px), calc(-50% + 400px));
+}
+
+.map_box canvas#context{
+  pointer-events: all;
+  z-index: 99;
+  opacity: 0;
 }
