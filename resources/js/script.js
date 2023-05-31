@@ -22,8 +22,8 @@ const App = {
 const Map = {
   pos : [0, 0],
   isWheel : true,
-  zoom : 2,
-  maxSize : 1600,
+  zoom : 1,
+  maxSize : 800,
   data : [
     {
       "x" : 2941,
@@ -97,30 +97,64 @@ const Map = {
   },
 
   zoomMap(e){
+    if(!Map.isWheel) return;
+
+    const { top, left } = $(`.map_box`).offset();
+    const origin = $(`.map_modal #map${Map.zoom}`).offset();
+    let [originX, originY] = [origin.left, origin.top];
     const dir = e.deltaY/-100;
+    let [x, y] = [...Map.pos];
 
     if(Map.zoom + dir > 3 || Map.zoom + dir < 1) return;
 
-    $(`.map_modal #map${Map.zoom}`).attr("hidden", true);
+    Map.isWheel = false;
     Map.zoom += dir;
-    $(`.map_modal #map${Map.zoom}`).attr("hidden", false);
 
-    let [x, y] = [...Map.pos];
+    if (dir === -1) {
+      const [posX, posY] = Map.pos;
+      const limit = (Map.maxSize/2 - 400)/2;
 
-    if(dir === -1) {
-      x /= 2;
-      y /= 2;
+      originX = posX > limit ? "left" : posX < (limit * -1) ? "right" : `${posX + (Map.maxSize/2)}px`;
+      originY = posY > limit ? "top" : posY < (limit * -1) ? "bottom" : `${posY + (Map.maxSize/2)}px`;
+
+      x = ( x + ( ( 400 - ( e.pageX - left ) ) * dir ) )/2;
+      y = ( y + ( ( 400 - ( e.pageY - top ) ) * dir ) )/2;
 
       Map.maxSize /= 2
-    }else{
-      x *= 2;
-      y *= 2;
+    } else {
+      originX = `${e.pageX - originX}px`;
+      originY = `${e.pageY - originY}px`;
+
+      x = ( x + ( ( 400 - ( e.pageX - left ) ) * dir ) )*2;
+      y = ( y + ( ( 400 - ( e.pageY - top ) ) * dir ) )*2;
 
       Map.maxSize *= 2
     }
 
-    const max = Map.maxSize/2 - 400;
-    Map.pos = [Math.abs(x) > max ? max : x, Math.abs(y) > max ? max : y];
+    $(`.map_modal #map${Map.zoom - dir}`).css({
+      "transform-origin" : `${originX} ${originY}`
+    })
+
+    setTimeout(() => {
+      $(`.map_modal #map${Map.zoom - dir}`).css({
+        "transition" : `.3s`,
+        "transform" : `translate(calc(-50% + 400px), calc(-50% + 400px)) scale(${1 + (dir == -1 ? -.3 : 1)})`
+      })
+    }, 100)
+
+    setTimeout(() => {
+      $(`.map_modal canvas:not(#context)`).attr("hidden", true)
+      $(`.map_modal #map${Map.zoom}`).attr("hidden", false);
+
+      $(`.map_modal #map${Map.zoom - dir}`).css({
+        "transition" : `0s`,
+        "transform" : `translate(calc(-50% + 400px), calc(-50% + 400px))`
+      })
+
+      Map.isWheel = true;
+    }, 400)
+
+    Map.pos = Map.max([x, y]);
 
     Map.newMap(...Map.pos).then(() => {
       Map.addMarker();
@@ -163,15 +197,13 @@ const Map = {
 
     mousemove(e){
       if(!Map.isMove) return;
-      const max = Map.maxSize/2 - 400;
 
-      let [moveX, moveY] = [
+      let movePos = [
         Map.pos[0] + e.pageX - Map.startPos[0],
         Map.pos[1] + e.pageY - Map.startPos[1]
       ];
 
-      moveX = Math.abs(moveX) > max ? max : moveX;
-      moveY = Math.abs(moveY) > max ? max : moveY;
+      const [moveX, moveY] = Map.max(movePos);
 
       $(`.map_modal #map${Map.zoom}`).css({
         "left" : moveX,
@@ -181,20 +213,23 @@ const Map = {
 
     mouseup(e){
       if(!Map.isMove) return;
-      const max = Map.maxSize/2 - 400;
       Map.isMove = false;
 
-      let [moveX, moveY] = [
+      let movePos = [
         Map.pos[0] + e.pageX - Map.startPos[0],
         Map.pos[1] + e.pageY - Map.startPos[1]
       ];
 
-      moveX = Math.abs(moveX) > max ? max : moveX;
-      moveY = Math.abs(moveY) > max ? max : moveY;
-
-      Map.pos = [moveX, moveY];
+      Map.pos = Map.max(movePos);
       Map.setContext();
     }
+  },
+
+  max(arr){
+    const max = Map.maxSize/2 - 400;
+    return arr.map(v => {
+      return Math.abs(v) > max ? max * Math.sign(v): v
+    })
   },
 
 }
