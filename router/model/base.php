@@ -41,4 +41,17 @@
       return self::$pdo->lastinsertid();
     }
   }
+
+  class breads extends DB {};
+  class deliveries extends DB {};
+  class delivery_items extends DB {};
+  class distances extends DB {};
+  class grades extends DB {};
+  class likes extends DB {};
+  class locations extends DB {};
+  class replies extends DB {};
+  class reservations extends DB {};
+  class reviews extends DB {};
+  class stores extends DB {};
+  class users extends DB {};
 ?>
