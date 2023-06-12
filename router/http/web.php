@@ -31,4 +31,14 @@
 
   });
 
+  middleware("user", function(){
+
+    get("/logout", function(){
+      session_destroy();
+
+      move("로그아웃이 완료되었습니다.", "/");
+    });
+
+  });
+
 ?>

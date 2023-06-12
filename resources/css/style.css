@@ -1370,3 +1370,8 @@ input:focus{
   min-width: 80px;
   text-align: center;
 }
+
+header .box{
+  align-items: center;
+  gap: 1rem;
+}

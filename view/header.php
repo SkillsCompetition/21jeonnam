@@ -24,7 +24,16 @@
       </div>
 
       <div class="box flex jcfe">
-        <a class="btn" href="/login"><i class="fa fa-user"></i>로그인</a>
+
+        <?php if(@USER):?>
+          <p>
+            <?= USER["name"] ?>
+            (<?= USER["type"] == "onwer" ? "사장님" : (USER["type"] == "rider" ? "라이더" : "사용자" ) ?>)
+          </p>
+          <a class="btn" href="/logout"><i class="fa fa-user-times"></i>로그아웃</a>
+        <?php else: ?>
+          <a class="btn" href="/login"><i class="fa fa-user"></i>로그인</a>
+        <?php endif ?>
       </div>
     </div>
   </header>
