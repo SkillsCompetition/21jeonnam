@@ -24,7 +24,7 @@
       </div>
 
       <div class="box flex jcfe">
-        <div class="btn"><i class="fa fa-user"></i>로그인</div>
+        <a class="btn" href="/login"><i class="fa fa-user"></i>로그인</a>
       </div>
     </div>
   </header>
