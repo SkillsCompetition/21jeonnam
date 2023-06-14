@@ -420,9 +420,6 @@
 
   </div>
 
-  <div class="modal">
-  </div>
-
   <template>
 
     <div class="map_modal">

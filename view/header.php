@@ -20,7 +20,7 @@
         <a href="#" class="depth1">대전 빵집</a>
         <a href="#" class="depth1">스탬프</a>
         <a href="#" class="depth1">할인 이벤트</a>
-        <a href="#" class="depth1">마이페이지</a>
+        <a href="/mypage" class="depth1">마이페이지</a>
       </div>
 
       <div class="box flex jcfe">
@@ -28,7 +28,7 @@
         <?php if(@USER):?>
           <p>
             <?= USER["name"] ?>
-            (<?= USER["type"] == "onwer" ? "사장님" : (USER["type"] == "rider" ? "라이더" : "사용자" ) ?>)
+            (<?= USER["type"] == "onwer" ? "사장님" : (USER["type"] == "rider" ? "라이더" : "고객" ) ?>)
           </p>
           <a class="btn" href="/logout"><i class="fa fa-user-times"></i>로그아웃</a>
         <?php else: ?>

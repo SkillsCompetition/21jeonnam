@@ -16,7 +16,7 @@
   
           <div class="input_box">
             <label for="password">비밀번호</label>
-            <input type="text" id="password" name="pw">
+            <input type="password" id="password" name="pw">
           </div>
 
           <button class="btn">로그인</button>

@@ -1242,7 +1242,7 @@ input{
 
 .input_box{
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -1279,6 +1279,19 @@ input{
   border: none;
 }
 
+.input_box textarea{
+  width: 100%;
+  min-width: 350px;
+  min-height: 200px;
+  padding: 15px 0;
+  background-color: transparent;
+  resize: none;
+  border: none;
+  text-decoration: initial;
+  font-size: 15px;
+  font-family: initial;
+}
+
 .modal hr{
   margin: 1rem 0;
 }
@@ -1289,6 +1302,7 @@ input{
   gap: 1rem;
 }
 
+textarea:focus,
 input:focus{
   outline: none;
 }
@@ -1374,4 +1388,95 @@ input:focus{
 header .box{
   align-items: center;
   gap: 1rem;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, 
+table td{
+  text-align: center;
+  padding: 8px 0;
+  border: 1px solid #e2e2e2;
+}
+
+table td{
+  font-size: 15px;
+}
+
+table th{
+  background-color: #fb6;
+  color: #fff;
+}
+
+table th span{
+  width: 100%;
+}
+
+table tr .btn{
+  width: 100%;
+  padding: .5rem 1rem;
+  font-size: 14px;
+}
+
+table tr .btn_box{
+  margin: 0 1rem;
+}
+
+.review_modal label{
+  text-align: center;
+  min-width: 89px;
+}
+
+.review_modal .input_box:nth-child(2) label{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 175px;
+}
+
+.review_modal .input_box input[type="file"]{
+  display: block;
+  margin-top: 15px;
+}
+
+.score_modal .star{
+  position: relative;
+}
+
+.score_modal .star div{
+  display: flex;
+  font-size: 18px;
+  gap: .3rem;
+}
+
+.score_modal .star .emp i{
+  color: #0004;
+  pointer-events: none;
+}
+
+.score_modal .star .fill{
+  width: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: orange;
+  pointer-events: none;
+}
+
+.mypage{
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.mypage > div{
+  margin-top: 2rem;
+}
+
+.mypage > div > h3{
+  margin-bottom: .5rem;
 }

@@ -1,3 +1,5 @@
+<div class="modal"></div>
+
 <footer>
     <div class="wrap flex jcsb">
       <div class="left col-flex jcsb">

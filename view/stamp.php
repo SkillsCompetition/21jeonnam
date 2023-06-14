@@ -52,8 +52,6 @@
     </div>
   </div>
 
-  <div class="modal"></div>
-
   <template>
 
     <div class="stampIssued_modal">
