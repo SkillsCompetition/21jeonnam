@@ -1402,6 +1402,10 @@ table td{
   border: 1px solid #e2e2e2;
 }
 
+table td.none{
+  padding: 4px 0;
+}
+
 table td{
   font-size: 15px;
 }
@@ -1416,13 +1420,8 @@ table th span{
 }
 
 table tr .btn{
-  width: 100%;
   padding: .5rem 1rem;
   font-size: 14px;
-}
-
-table tr .btn_box{
-  margin: 0 1rem;
 }
 
 .review_modal label{

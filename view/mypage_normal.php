@@ -14,92 +14,74 @@
   ]
 ?>
 
-<div class="emp_box" style="height: 100px;"></div>
+<div class="order_list">
+  <h3>주문 조회</h3>
+  <table>
+    <tr>
+      <th>빵집 이름</th>
+      <th>주문 일시</th>
+      <th>빵 종류 및 가격</th>
+      <th>수량</th>
+      <th>라이더 이름</th>
+      <th>도착 예정 시간</th>
+      <th>주문상태</th>
+      <th>기타</th>
+    </tr>
+    <?php foreach($orders as $v): ?>
+      <?php 
+        $rowspan = count($v["breads"]); 
+        $menu = $v["breads"];
 
-<div class="content">
+        unset($v["breads"]);
 
-  <div class="mypage_section">
-    <div class="wrap">
-      <div class="title">
-        <h1>마이페이지</h1>
-      </div>
+        $json = json_encode($v);
+      ?>
+      <?php foreach($menu as $k => $val): ?>
+      <tr>
+        <?php if($k == 0): ?>
+        <td rowspan="<?= $rowspan ?>"><?= $v["store_name"] ?></td>
+        <td rowspan="<?= $rowspan ?>"><?= formatDate($v["order_at"]) ?></td>
+        <td><?= $val["name"] ?> ( <?= number_format($val["price"]) ?>원 )</td>
+        <td><?= $val["cnt"] ?>개</td>
+        <td rowspan="<?= $rowspan ?>"><?= $v["rider_name"] ?></td>
+        <td rowspan="<?= $rowspan ?>"></td>
+        <td rowspan="<?= $rowspan ?>"><?= $state[$v["state"]] ?></td>
+        <td rowspan="<?= $rowspan ?>">
+          <div class="btn_box jcc">
+            <?php if($v["state"] == "complete"): ?>
+              <div class="btn" data-json='<?= $json ?>' onclick="formopen(this, 'review')">리뷰</div>
+              <div class="btn" data-json='<?= $json ?>' onclick="formopen(this, 'score')">평점</div>
+            <?php endif ?>
+          </div>
+        </td>
+        <?php else: ?>
+        <td><?= $val["name"] ?> ( <?= number_format($val["price"]) ?>원 )</td>
+        <td><?= $val["cnt"] ?>개</td>
+        <?php endif?>
+      </tr>
+      <?php endforeach; ?>
+    <?php endforeach; ?>
+  </table>
+</div>
 
-      <div class="mypage">
-
-        <div class="order_list">
-          <h3>주문 조회</h3>
-          <table>
-            <tr>
-              <th>빵집 이름</th>
-              <th>주문 일시</th>
-              <th>빵 종류 및 가격</th>
-              <th>수량</th>
-              <th>라이더 이름</th>
-              <th>도착 예정 시간</th>
-              <th>주문상태</th>
-              <th>기타</th>
-            </tr>
-            <?php foreach($orders as $v): ?>
-              <?php 
-                $rowspan = count($v["breads"]); 
-                $menu = $v["breads"];
-
-                unset($v["breads"]);
-
-                $json = json_encode($v);
-              ?>
-              <?php foreach($menu as $k => $val): ?>
-              <tr>
-                <?php if($k == 0): ?>
-                <td rowspan="<?= $rowspan ?>"><?= $v["store_name"] ?></td>
-                <td rowspan="<?= $rowspan ?>"><?= formatDate($v["order_at"]) ?></td>
-                <td><?= $val["name"] ?> ( <?= number_format($val["price"]) ?>원 )</td>
-                <td><?= $val["cnt"] ?>개</td>
-                <td rowspan="<?= $rowspan ?>"><?= $v["rider_name"] ?></td>
-                <td rowspan="<?= $rowspan ?>"></td>
-                <td rowspan="<?= $rowspan ?>"><?= $state[$v["state"]] ?></td>
-                <td rowspan="<?= $rowspan ?>">
-                  <div class="btn_box">
-                    <?php if($v["state"] == "complete"): ?>
-                      <div class="btn" data-json='<?= $json ?>' onclick="formopen(this, 'review')">리뷰</div>
-                      <div class="btn" data-json='<?= $json ?>' onclick="formopen(this, 'score')">평점</div>
-                    <?php endif ?>
-                  </div>
-                </td>
-                <?php else: ?>
-                <td><?= $val["name"] ?> ( <?= number_format($val["price"]) ?>원 )</td>
-                <td><?= $val["cnt"] ?>개</td>
-                <?php endif?>
-              </tr>
-              <?php endforeach; ?>
-            <?php endforeach; ?>
-          </table>
-        </div>
-
-        <div class="reservation_list">
-          <h3>예약 조회</h3>
-          <table>
-            <tr>
-              <th>예약한 빵집</th>
-              <th>예약 일시</th>
-              <th>예약 신청 일시</th>
-              <th>상태</th>
-            </tr>
-            <?php foreach($reservations as $v): ?>
-            <tr>
-              <td><?= $v["name"] ?></td>
-              <td><?= formatDate($v["reservation_at"]) ?></td>
-              <td><?= formatDate($v["request_at"]) ?></td>
-              <td><?= $state_reservation[$v["state"]] ?></td>
-            </tr>
-            <?php endforeach ?>
-          </table>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
+<div class="reservation_list">
+  <h3>예약 조회</h3>
+  <table>
+    <tr>
+      <th>예약한 빵집</th>
+      <th>예약 일시</th>
+      <th>예약 신청 일시</th>
+      <th>상태</th>
+    </tr>
+    <?php foreach($reservations as $v): ?>
+    <tr>
+      <td><?= $v["name"] ?></td>
+      <td><?= formatDate($v["reservation_at"]) ?></td>
+      <td><?= formatDate($v["request_at"]) ?></td>
+      <td><?= $state_reservation[$v["state"]] ?></td>
+    </tr>
+    <?php endforeach ?>
+  </table>
 </div>
 
 <template>
