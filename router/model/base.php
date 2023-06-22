@@ -4,7 +4,7 @@
 
     public static function mq($sql, $arr = []){
       if(!self::$pdo){
-        self::$pdo = new PDO("mysql:host=localhost;charset=utf8;dbname=21jeonnam", "root", "", [
+        self::$pdo = new PDO("mysql:host=localhost;charset=utf8mb4;dbname=21jeonnam", "root", "", [
           19 => 2,
           3 => 2
         ]);
@@ -40,18 +40,60 @@
 
       return self::$pdo->lastinsertid();
     }
+
+    public static function data($id, $key){
+      $data = self::find("id = ?", $id);
+
+      return $data ? $data[$key] : "";
+    }
+
   }
 
   class breads extends DB {}
+
   class deliveries extends DB {}
+
   class delivery_items extends DB {}
+
   class distances extends DB {}
+
   class grades extends DB {}
+
   class likes extends DB {}
-  class locations extends DB {}
+
+  class locations extends DB {
+
+    public static function location($location_id) {
+      $loc = self::find("id = ?", $location_id);
+
+      return $loc ? $loc["name"] : "";
+    }
+
+  }
+
   class replies extends DB {}
+
   class reservations extends DB {}
+
   class reviews extends DB {}
+
   class stores extends DB {}
-  class users extends DB {}
+
+  class users extends DB {
+
+    public static function name($user_id){
+      $user = self::find("id = ?", $user_id);
+
+      return $user ? $user["name"] : "";
+    }
+
+    public static function location($user_id){
+      $user = self::find("id = ?", $user_id);
+      $loc = locations::location($user["location_id"]);
+
+      return $user && $loc ? $loc : "";
+    }
+
+  }
+
 ?>

@@ -11,7 +11,7 @@
     "order" => "신청",
     "reject" => "거절",
     "accept" => "승인"
-  ]
+  ];
 ?>
 
 <div class="order_list">
@@ -43,8 +43,8 @@
         <td rowspan="<?= $rowspan ?>"><?= formatDate($v["order_at"]) ?></td>
         <td><?= $val["name"] ?> ( <?= number_format($val["price"]) ?>원 )</td>
         <td><?= $val["cnt"] ?>개</td>
-        <td rowspan="<?= $rowspan ?>"><?= $v["rider_name"] ?></td>
-        <td rowspan="<?= $rowspan ?>"></td>
+        <td rowspan="<?= $rowspan ?>"><?= users::name($v["driver_id"]) ?></td>
+        <td rowspan="<?= $rowspan ?>"><?= min_distance($v) ?></td>
         <td rowspan="<?= $rowspan ?>"><?= $state[$v["state"]] ?></td>
         <td rowspan="<?= $rowspan ?>">
           <div class="btn_box jcc">

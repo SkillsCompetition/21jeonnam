@@ -42,6 +42,70 @@
     return date("Y년 m월 d일 Ah:i", strtotime($date));
   }
 
+  function sale_price($price, $sale_per){
+    return floor($price * ( (100 - $sale_per)/100 ));
+  }
+
+  function min_distance($data){
+    if(!in_array($data["state"], ["taking", "complete"])) return;
+
+    $loot = distances::all("ORDER BY distance");
+
+    $store_loc = users::data(stores::data($data["store_id"], "user_id"), "location_id");
+    $user_loc = users::data($data["orderer_id"], "location_id");
+
+    $driver = users::find("id = ?", $data["driver_id"]);
+
+    $driver_loc = $driver["location_id"];
+    $driver_transportation = $driver["transportation"];
+
+    $user_route = [
+      "min" => INF
+    ];
+    $driver_route = [
+      "min" => INF
+    ];
+
+    loc_find($loot, $store_loc, $driver_loc, $driver_route);
+    loc_find($loot, $store_loc, $user_loc, $user_route);
+
+    $distance = $driver_route["min"] + $user_route["min"];
+    $speed = ["motorcycle" => 30, "bike" => 15][$driver_transportation];
+
+    $time = strtotime($data["taking_at"]) + 3600 * ($distance/$speed);
+    $date = date("Y년 m월 d일 Ah:i", $time);
+    
+    return $date;
+  }
+
+  function loc_find($loot, $now, $target, &$route, $distance = 0, $visit = [], $arrive = false){
+    $min = $route["min"];
+
+    if($min <= $distance) return;
+
+    foreach($loot as $v){
+      if($v["vertex1"] !== $now) continue;
+
+      $nowPath = $v["vertex1"]."-".$v["vertex2"];
+      if(in_array($nowPath, $visit)) return;
+
+      $tmpVisit = [...$visit, $nowPath];
+      $tmpDistance = $distance + $v["distance"];
+
+      if($target == $now){
+        $arrive = true;
+      }
+
+      if(!$arrive){
+        loc_find($loot, $v["vertex2"], $target, $route, $tmpDistance, $tmpVisit, $arrive);
+        continue;
+      }
+
+      $route["min"] = $distance;
+      $route["path"] = $visit;
+    }
+  }
+
   function view($loc, $data = []){
     extract($data);
 

@@ -36,15 +36,15 @@
       <?php foreach($menu as $k => $val): ?>
       <tr>
         <?php if($k == 0): ?>
-        <td rowspan="<?= $rowspan ?>"><?= $v["orderer_name"] ?></td>
-        <td rowspan="<?= $rowspan ?>"><?= $v["orderer_location"] ?></td>
-        <td rowspan="<?= $rowspan ?>"><?= $v["rider_name"] ?></td>
-        <td rowspan="<?= $rowspan ?>"></td>
+        <td rowspan="<?= $rowspan ?>"><?= users::name($v["orderer_id"]) ?></td>
+        <td rowspan="<?= $rowspan ?>"><?= users::location($v["orderer_id"]) ?></td>
+        <td rowspan="<?= $rowspan ?>"><?= users::name($v["driver_id"]) ?></td>
+        <td rowspan="<?= $rowspan ?>"><?= min_distance($v) ?></td>
         <td><?= $val["name"] ?> ( <?= number_format($val["price"]) ?>원 )</td>
         <td><?= $val["cnt"] ?>개</td>
         <td rowspan="<?= $rowspan ?>">
           <?php if($v["state"] == "order"): ?>
-            <div class="btn_box">
+            <div class="btn_box jcc">
               <a href="/delivery/accept/<?= $v["id"] ?>" class="btn" style="background-color: green;">수락</a>
               <a href="/delivery/reject/<?= $v["id"] ?>" class="btn" style="background-color: tomato;">거절</a>
             </div>
@@ -63,7 +63,7 @@
 </div>
 
 <div class="reservation_list">
-  <h3>에약 조회</h3>
+  <h3>예약 조회</h3>
   <table>
     <tr>
       <th>예약자 이름</th>
@@ -78,7 +78,7 @@
       <td><?= formatDate($v["request_at"]) ?></td>
       <td>
         <?php if($v["state"] == "order"): ?>
-          <div class="btn_box">
+          <div class="btn_box jcc">
             <a href="/reservation/accept/<?= $v["id"] ?>" class="btn" style="background-color: green;">수락</a>
             <a href="/reservation/reject/<?= $v["id"] ?>" class="btn" style="background-color: tomato;">거절</a>
           </div>
@@ -104,7 +104,7 @@
     </tr>
     <?php foreach($menus as $v): ?>
     <?php 
-      $sale_price = floor($v["price"] * ( (100 - $v["sale"])/100 ));  
+      $sale_price = sale_price($v["price"], $v["sale"]);  
     ?>
     <tr>
       <td><?= $v["name"] ?></td>

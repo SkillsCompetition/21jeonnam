@@ -1,19 +1,30 @@
 <div class="emp_box" style="height: 70px;"></div>
 
 <div class="content">
-  
+
 </div>
-  
+
 <script>
 
-  const prevHtml = {};
+const prevHtml = {};
+let nowPage = 1;
+let template = true;
 
-  $.ajaxSetup({ cache : false })
+$.ajaxSetup({ cache : false })
 
   function load(){
-    $.ajax("/sub_template?keyword=<?= urlencode(@G['search']) ?>")
+    $.ajax(`/order_template/<?= $store_id ?>?menu=<?= @G["menu"] ?>&page=${nowPage}`)
       .then(res => {
         const sectionList = $($(res).toArray().filter(v => v.className));
+        const templates = $($(res).toArray().filter(v => ["TEMPLATE", "SCRIPT"].includes(v.tagName)));
+
+        if(template){
+          template = false;
+
+          templates.each((i, el) => {
+            $("body").append($(el).clone());
+          })
+        }
 
         sectionList.each((i, el) => {
           const type = el.className.split(" ").join(".");
@@ -33,3 +44,4 @@
   setInterval(() => load(), 200);
 
 </script>
+

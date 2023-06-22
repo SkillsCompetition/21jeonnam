@@ -9,7 +9,6 @@
       </div>
 
       <div class="mypage">
-
       </div>
     </div>
   </div>
@@ -18,15 +17,39 @@
 
 <script>
 
-  function change(){
-    $.get("/mypage/<?= $type ?>")
+  const prevHtml = {};
+  let template = true;
+
+  $.ajaxSetup({ cache : false })
+
+  function load(){
+    $.ajax("/mypage/<?= USER['type'] ?>")
       .then(res => {
-        $(".mypage").html(res);
+        const sectionList = $($(res).toArray().filter(v => v.className));
+        const templates = $($(res).toArray().filter(v => ["TEMPLATE", "SCRIPT"].includes(v.tagName)));
+
+        if(template){
+          template = false;
+
+          templates.each((i, el) => {
+            $("body").append($(el).clone());
+          })
+        }
+
+        sectionList.each((i, el) => {
+          const type = el.className.split(" ").join(".");
+          const html = $(el).html();
+
+          if(!prevHtml[type]) $(".mypage").append($(el).clone());
+
+          if(prevHtml[type] != html) $(`.mypage .${type}`).html(html);
+
+          prevHtml[type] = html;
+        });
       })
   }
 
-  change();
+  load();
 
-  setInterval(() => change(), 1000);
-
+  setInterval(() => load(), 200);
 </script>
