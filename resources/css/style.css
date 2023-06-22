@@ -42,6 +42,8 @@ a{
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  font-size: 16px;
+  border: none;
   gap: .5rem;
   color: #fff;
   cursor: pointer;
@@ -1124,8 +1126,12 @@ footer .sns_nav i:hover{
 .popular,
 .shoplist .container{
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+}
+
+.popular{
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .popular .item,
@@ -1134,6 +1140,7 @@ footer .sns_nav i:hover{
   box-shadow: 0 0 3rem #0001;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
 }
 
 .popular .item .rank{
@@ -1142,9 +1149,20 @@ footer .sns_nav i:hover{
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: gray;
+  background-color: goldenrod;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 900;
 }
+
+.popular .item:nth-child(2) .rank{ background-color: silver; }
+.popular .item:nth-child(3) .rank{ background-color: #835c48; }
+.popular .item:nth-child(4) .rank{ background-color: gray; }
+.popular .item:nth-child(5) .rank{ background-color: gray; }
 
 .popular .item .text_box,
 .shoplist .container .item .text_box{
@@ -1163,8 +1181,16 @@ footer .sns_nav i:hover{
   margin-right: 2px;
 }
 
-.popular .item .text_box > p,
-.shoplist .container .item .text_box > p{
+.popular .item h2 span,
+.shoplist .container .item span{
+  font-size: .8rem;
+  color: gray;
+  font-weight: 100;
+  margin-left: 5px;
+}
+
+.popular .item .bottom p,
+.shoplist .container .item .bottom p{
   color: gray;
   font-size: .9rem;
 }
@@ -1240,7 +1266,7 @@ input{
 
 .input_box{
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -1256,13 +1282,15 @@ input{
   color: gray;
 }
 
-.input_box input{
+.input_box input,
+.input_box select{
   width: 100%;
   height: 40px;
   background-color: transparent;
   border: none;
   font-family: initial;
   vertical-align: middle;
+  font-size: initial;
 }
 
 .input_box input[type="file"]{
@@ -1277,6 +1305,19 @@ input{
   border: none;
 }
 
+.input_box textarea{
+  width: 100%;
+  min-width: 350px;
+  min-height: 200px;
+  padding: 15px 0;
+  background-color: transparent;
+  resize: none;
+  border: none;
+  text-decoration: initial;
+  font-size: 15px;
+  font-family: initial;
+}
+
 .modal hr{
   margin: 1rem 0;
 }
@@ -1287,6 +1328,8 @@ input{
   gap: 1rem;
 }
 
+textarea:focus,
+select:focus,
 input:focus{
   outline: none;
 }
@@ -1351,4 +1394,350 @@ input:focus{
   pointer-events: all;
   z-index: 99;
   opacity: 0;
+}
+
+.login_section{
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login_section .wrap{
+  width: 500px;
+}
+
+.login_section label{
+  min-width: 80px;
+  text-align: center;
+}
+
+header .box{
+  align-items: center;
+  gap: 1rem;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, 
+table td{
+  text-align: center;
+  padding: 8px 0;
+  border: 1px solid #e2e2e2;
+}
+
+table td.none{
+  padding: 4px 0;
+}
+
+table td{
+  font-size: 15px;
+}
+
+table th{
+  background-color: #fb6;
+  color: #fff;
+}
+
+table th span{
+  width: 100%;
+}
+
+table tr .btn{
+  padding: .5rem 1rem;
+  font-size: 14px;
+}
+
+.review_modal label{
+  text-align: center;
+  min-width: 89px;
+}
+
+.review_modal .input_box:nth-child(2) label{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 175px;
+}
+
+.review_modal .input_box input[type="file"]{
+  display: block;
+  margin-top: 15px;
+}
+
+.score_modal .star{
+  position: relative;
+}
+
+.score_modal .star div{
+  display: flex;
+  font-size: 18px;
+  gap: .3rem;
+}
+
+.score_modal .star .emp i{
+  color: #0004;
+  pointer-events: none;
+}
+
+.score_modal .star .fill{
+  width: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: orange;
+  pointer-events: none;
+}
+
+.mypage{
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.mypage > div{
+  margin-top: 2rem;
+}
+
+.mypage > div > h3{
+  margin-bottom: .5rem;
+}
+
+.info_section label{
+  min-width: 97px;
+  text-align: center;
+}
+
+.sale{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.sale .item .text_box{
+  padding: 25px 25px 30px 25px;
+  border-top: 1px solid #d1d1d1;
+}
+
+.sale .item{
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 3rem #0001;
+}
+
+.sale .item h3{
+  font-size: 20px;
+  letter-spacing: -2px;
+}
+
+.sale .item img{
+  height: 350px;
+}
+
+.sale .bottom p{
+  color: gray;
+  font-size: 14px;
+}
+
+.sale .item .store{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #000;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #fff;
+}
+
+.content > .double{
+  display: flex;
+  gap: 3rem;
+}
+
+.content > .double > div{
+  width: 50%;
+}
+
+.store{
+  box-shadow: 0 0 3rem #0001;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.store .text_box h2{
+  font-size: 25px;
+  text-shadow: 1px 0 #000;
+}
+
+.store .text_box{
+  padding: 20px 25px 25px 25px;
+}
+
+.store .text_box div p{
+  color: gray;
+  font-size: 14px;
+}
+
+.store img{
+  height: 350px;
+}
+
+.orderMenu{
+  gap: 1.5rem;
+}
+
+.orderMenu .container{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.orderMenu .item{
+  border-radius: 10px;
+  box-shadow: 0 0 3rem #0001;
+  overflow: hidden;
+}
+
+.orderMenu .item .text_box{
+  padding: 20px;
+  border-top: 1px solid #d1d1d1;
+}
+
+.orderMenu .item .text_box .name{
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.orderMenu .item .text_box .btn_box{
+  margin-top: 10px;
+}
+
+.orderMenu .item .text_box small{
+  text-decoration: line-through;
+  color: gray;
+}
+
+.orderMenu .item .sale_box{
+  gap: .3rem;
+}
+
+.orderMenu .item .text_box .sale_per{
+  color: tomato;
+}
+
+.review{
+  gap: 1.5rem;
+}
+
+.review .container{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.review .item{
+  display: flex;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 3rem #0001;
+}
+
+.review .item img,
+.review .item .notFound_img{
+  width: 40%;
+  min-height: 300px;
+}
+
+.review .item .notFound_img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: gray;
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -3px;
+  background-color: #f2f2f2;
+}
+
+.review .item .text_box{
+  width: 60%;
+  padding: 30px 40px;
+  gap: 1rem;
+}
+
+.review .item .text_box .main{
+  gap: .8rem;
+}
+
+.review .item .text_box h2{
+  font-size: 25px;
+}
+
+.review .item .text_box .user{
+  line-height: 16px;
+}
+
+.review .item .text_box small{
+  color: gray;
+}
+
+.review .item .text_box .like{
+  gap: .4rem;
+  font-size: 20px;
+}
+
+.review .item .text_box .like i{
+  cursor: pointer;
+}
+
+.review .item .text_box .like p{
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+
+.review .replie{
+  padding: 30px;
+  box-shadow: 0 0 3rem #0001;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.input_box .long{
+  height: 180px;
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  border-right: 1px solid #d1d1d1;
+}
+
+.input_box .long label{
+  border: none;
+  margin-right: 0;
+}
+
+.review .paging div{
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+  background-color: #f2f2f2;
+}
+
+.review .paging div.now{
+  background-color: #fb6;
+  color: #fff;
 }

@@ -5,8 +5,7 @@ const App = {
   init(){
     App.hook();
     
-    if(location.pathname.includes("/")) Map.init();
-    if(location.pathname.includes("stemp")) Stamp.init();
+    if(location.pathname.includes("stamp")) Stamp.init();
   },
 
   hook(){
